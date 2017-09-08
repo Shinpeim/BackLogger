@@ -1,0 +1,24 @@
+{
+  "name": "backlogger-web",
+  "version": "0.1.0",
+  "author": "Shinpei Maruyama",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run clean && cp src/index.html build/index.html && webpack",
+    "watch": "npm run clean && cp src/index.html build/index.html && webpack -w",
+    "clean": "rm -rf build/*"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2017": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "vue-loader": "^13.0.4",
+    "vue-template-compiler": "^2.4.2",
+    "webpack": "^3.5.6"
+  },
+  "dependencies": {
+    "vue": "^2.4.2",
+    "vue-router": "^2.7.0"
+  }
+}
