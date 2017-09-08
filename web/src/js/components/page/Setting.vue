@@ -9,16 +9,26 @@
     </div>
 </template>
 <script>
-    import {SaveSettingCommand, SettingQuery} from '../../../../../scala/target/scala-2.12/backlogger-opt'
+    import {SaveSettingCommand, SettingQuery, SettingEvents} from '../../../../../scala/target/scala-2.12/backlogger-opt'
+
+    import base from './base'
 
     export default {
+        mixins: [base],
+
         created(){
             this.command = new SaveSettingCommand
         },
 
         beforeMount(){
             const q = new SettingQuery();
-            this.apiKeyInput = q.apiKey()
+            this.apiKeyInput = q.apiKey();
+
+            this.subscriptions.push(
+                SettingEvents.saved.subscribe(() => {
+                    this.$router.push("/tasks");
+                })
+            );
         },
 
         data(){
