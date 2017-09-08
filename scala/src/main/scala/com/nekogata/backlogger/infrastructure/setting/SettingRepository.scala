@@ -12,6 +12,6 @@ class SettingRepositoryImpl extends SettingRepository{
 
 //ひとまずオンメモリに持つ
 object SettingRepositoryImpl {
-  private var state: Setting = Setting("")
+  private var state: Setting = Setting("default")
 }
 
