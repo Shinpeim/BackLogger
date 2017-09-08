@@ -6,4 +6,6 @@ trait SettingQuery {
   val settingRepository: SettingRepository
 
   def apiKey(): String = settingRepository.get().apiKey
+
+  def spaceName(): String = settingRepository.get().spaceName
 }

@@ -12,4 +12,7 @@ class SettingQueryImpl extends SettingQuery {
 
   @JSExport
   override def apiKey(): String = super.apiKey()
+
+  @JSExport
+  override def spaceName(): String = super.spaceName()
 }
