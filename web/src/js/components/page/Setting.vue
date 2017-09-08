@@ -9,6 +9,8 @@
     </div>
 </template>
 <script>
+    import {SaveSettingCommand} from '../../../../../scala/target/scala-2.12/backlogger-opt'
+
     export default {
         data(){
             return {
@@ -18,7 +20,7 @@
 
         methods: {
             save(){
-                console.log(this.apiKey)
+                (new SaveSettingCommand).save(this.apiKey)
             }
         }
     }
