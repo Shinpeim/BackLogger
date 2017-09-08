@@ -3,6 +3,7 @@ package com.nekogata.backlogger.application.command.setting
 import com.nekogata.backlogger.application.service.setting.SaveSettingService
 
 trait SaveSettingCommand {
+  var spaceName: String
   var apiKey: String
 
   def execute(): Unit = {

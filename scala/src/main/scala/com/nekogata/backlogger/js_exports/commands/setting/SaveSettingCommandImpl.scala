@@ -10,5 +10,8 @@ class SaveSettingCommandImpl extends SaveSettingCommand {
   override var apiKey: String = ""
 
   @JSExport
+  override var spaceName: String = ""
+
+  @JSExport
   override def execute(): Unit = super.execute()
 }

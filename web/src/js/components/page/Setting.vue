@@ -1,8 +1,14 @@
 <template>
     <div>
         <form @submit.prevent="save">
-            <label for="api-key-input">API KEY</label>
-            <input id="api-key-input" type="password" v-model="apiKeyInput">
+            <div>
+                <label for="space-name-input">スペース名</label>
+                <input id="space-name-input" v-model="spaceNameInput">
+            </div>
+            <div>
+                <label for="api-key-input">API KEY</label>
+                <input id="api-key-input" v-model="apiKeyInput">
+            </div>
 
             <button type="submit">保存</button>
         </form>
@@ -18,12 +24,10 @@
 
         created(){
             this.command = new SaveSettingCommand
+            this.updateData();
         },
 
         beforeMount(){
-            const q = new SettingQuery();
-            this.apiKeyInput = q.apiKey();
-
             this.subscriptions.push(
                 SettingEvents.saved.subscribe(() => {
                     this.$router.push("/tasks");
@@ -32,26 +36,35 @@
 
             this.subscriptions.push(
                 SettingEvents.apiKeyVerificationFailed.subscribe(() => {
-                    this.$router.push("/tasks");
+                    alert("認証に失敗しました")
                 })
             );
         },
 
         data(){
             return {
-                apiKeyInput: ""
+                apiKeyInput: "",
+                spaceNameInput: ""
             }
         },
 
         watch: {
             apiKeyInput(v) {
                 this.command.apiKey = v
+            },
+            spaceNameInput(v) {
+                this.command.spaceName = v
             }
         },
 
         methods: {
             save(){
-                this.command.execute(this.apiKeyInput)
+                this.command.execute()
+            },
+            updateData(){
+                const q = new SettingQuery();
+                this.apiKeyInput = q.apiKey();
+                this.spaceNameInput = q.spaceName();
             }
         }
     }
