@@ -29,6 +29,12 @@
                     this.$router.push("/tasks");
                 })
             );
+
+            this.subscriptions.push(
+                SettingEvents.apiKeyVerificationFailed.subscribe(() => {
+                    this.$router.push("/tasks");
+                })
+            );
         },
 
         data(){
