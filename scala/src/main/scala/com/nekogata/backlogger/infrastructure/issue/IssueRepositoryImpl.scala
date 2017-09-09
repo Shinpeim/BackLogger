@@ -19,7 +19,14 @@ class IssueRepositoryImpl extends IssueRepository {
   override def store(projectId: Int, i: Issue): Unit = {
     val issues = IssueRepositoryImpl.status(projectId)
     val index = issues.indexWhere(iInDB => iInDB.id == i.id)
-    IssueRepositoryImpl.status = IssueRepositoryImpl.status.updated(projectId, issues.updated(index, i))
+    IssueRepositoryImpl.status =
+      IssueRepositoryImpl.status.updated(projectId, issues.updated(index, i))
+  }
+
+  override def remove(projectId: Int, issueId: Int): Unit = {
+    val issues = IssueRepositoryImpl.status(projectId)
+    IssueRepositoryImpl.status =
+      IssueRepositoryImpl.status.updated(projectId, issues.filterNot(i => i.id == issueId))
   }
 }
 

@@ -8,4 +8,6 @@ trait IssueRepository {
   def get(projectId:Int, IssueId: Int): Issue
 
   def store(projectId: Int, issue: Issue): Unit
+
+  def remove(projectId: Int, issueId: Int): Unit
 }

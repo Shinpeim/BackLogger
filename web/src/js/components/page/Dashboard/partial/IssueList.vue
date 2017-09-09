@@ -22,6 +22,7 @@
         MakeIssueStatusAsUntreatedCommand,
         MakeIssueStatusAsProcessingCommand,
         MakeIssueStatusAsProcessedCommand,
+        CloseIssueCommand,
         IssueEvents,
         IssueQuery
     } from '../../../../../../../scala/target/scala-2.12/backlogger-opt'
@@ -85,7 +86,12 @@
                 command.execute();
             },
 
-            closeIssue(issueId){},
+            closeIssue(issueId){
+                const command = new CloseIssueCommand;
+                command.projectId = this.selectedProject.id;
+                command.issueId = issueId;
+                command.execute();
+            },
         }
     }
 </script>

@@ -17,13 +17,13 @@ class ChangeStatusService {
 
   def makeStatusAsUntreated(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
-    val issue = oldIssue.makeStatusUntreated()
+    val issue = oldIssue.makeStatusUntreatedAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
 
     val setting = settingRepository.get()
     val client = new BackLogApiClient(setting.spaceName, setting.apiKey)
-    client.changeIssueStatusToUntreated(projectId, issueId).onComplete {
+    client.changeIssueStatusToUntreated(issueId).onComplete {
       case Success(_) =>
         issueRepository.store(projectId, issue.commitSynchronizing)
         IssueEvents.repositoryChanged.fire()
@@ -35,13 +35,13 @@ class ChangeStatusService {
 
   def makeStatusAsProcessing(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
-    val issue = oldIssue.makeStatusProcessing()
+    val issue = oldIssue.makeStatusProcessingAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
 
     val setting = settingRepository.get()
     val client = new BackLogApiClient(setting.spaceName, setting.apiKey)
-    client.changeIssueStatusToProcessing(projectId, issueId).onComplete {
+    client.changeIssueStatusToProcessing(issueId).onComplete {
       case Success(_) =>
         issueRepository.store(projectId, issue.commitSynchronizing)
         IssueEvents.repositoryChanged.fire()
@@ -53,13 +53,13 @@ class ChangeStatusService {
 
   def makeStatusAsProcessed(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
-    val issue = oldIssue.makeStatusProcessed()
+    val issue = oldIssue.makeStatusProcessedAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
 
     val setting = settingRepository.get()
     val client = new BackLogApiClient(setting.spaceName, setting.apiKey)
-    client.changeIssueStatusToProcessed(projectId, issueId).onComplete {
+    client.changeIssueStatusToProcessed(issueId).onComplete {
       case Success(_) =>
         issueRepository.store(projectId, issue.commitSynchronizing)
         IssueEvents.repositoryChanged.fire()

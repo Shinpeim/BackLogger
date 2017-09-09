@@ -48,7 +48,7 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
     ).map(req => Seq(req.response.asInstanceOf[js.Array[js.Dynamic]]: _*))
   }
 
-  def changeIssueStatusToUntreated(projectId: Int, issueId: Int): Future[Unit] = {
+  def changeIssueStatusToUntreated(issueId: Int): Future[Unit] = {
     Ajax(
       method = "PATCH",
       url = s"https://${spaceName}.backlog.jp/api/v2/issues/${issueId}?apiKey=${apiKey}",
@@ -60,7 +60,7 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
     ).map(req => ())
   }
 
-  def changeIssueStatusToProcessing(projectId: Int, issueId: Int): Future[Unit] = {
+  def changeIssueStatusToProcessing(issueId: Int): Future[Unit] = {
     Ajax(
       method = "PATCH",
       url = s"https://${spaceName}.backlog.jp/api/v2/issues/${issueId}?apiKey=${apiKey}",
@@ -72,11 +72,23 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
     ).map(req => ())
   }
 
-  def changeIssueStatusToProcessed(projectId: Int, issueId: Int): Future[Unit] = {
+  def changeIssueStatusToProcessed(issueId: Int): Future[Unit] = {
     Ajax(
       method = "PATCH",
       url = s"https://${spaceName}.backlog.jp/api/v2/issues/${issueId}?apiKey=${apiKey}",
       data = Ajax.InputData.str2ajax(s"""{"statusId":${Processed.id}}"""),
+      timeout = 5000,
+      headers = Map("Content-Type" -> "application/json"),
+      withCredentials = false,
+      responseType = "json"
+    ).map(req => ())
+  }
+
+  def closeIssue(issueId: Int): Future[Unit] = {
+     Ajax(
+      method = "PATCH",
+      url = s"https://${spaceName}.backlog.jp/api/v2/issues/${issueId}?apiKey=${apiKey}",
+      data = Ajax.InputData.str2ajax(s"""{"statusId":4}"""),
       timeout = 5000,
       headers = Map("Content-Type" -> "application/json"),
       withCredentials = false,
