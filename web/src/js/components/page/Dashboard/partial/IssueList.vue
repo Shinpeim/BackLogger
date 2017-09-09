@@ -1,19 +1,116 @@
+<style scoped>
+    .issue-list {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .issue-list-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 20px 4px;
+    }
+
+    .status-cell {
+        width: 80px;
+        font-size: small;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .close-cell {
+        width: 80px;
+        font-size: small;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .status-button-group > div:first-child{
+        border-top: solid 1px;
+        border-radius: 10px 10px 0 0;
+    }
+    .status-button-group > div{
+        cursor: pointer;
+        border-bottom: solid 1px;
+        border-left: solid 1px;
+        border-right: solid 1px;
+        background-color: antiquewhite;
+        height: 32px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .status-button-group > div:last-child{
+        border-radius: 0 0 10px 10px;
+    }
+
+    .status-button-group > div.current-status {
+        background-color: #b38324
+    }
+
+    .close-button {
+        cursor: pointer;
+        border: solid 1px;
+        background-color: antiquewhite;
+        height: 32px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    h1 {
+        width: 100%;
+        border-bottom: dashed 2px;
+    }
+
+    tr td {
+        border-bottom: solid 1px gray;
+    }
+
+</style>
 <template>
-    <div>
-        <table>
-            <tbody>
-            <tr v-for="i in issues">
-                <td>{{i.summary}}</td>
-                <td>{{i.status}}</td>
-                <td>
-                    <a @click="makeIssueStatusAsUntreated(i.id)">未対応にする</a>
-                    <a @click="makeIssueStatusAsProcessing(i.id)">処理中にする</a>
-                    <a @click="makeIssueStatusAsProcessed(i.id)">処理済みにする</a>
-                    <a @click="closeIssue(i.id)">完了する</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="issue-list">
+        <div class="issue-list-container">
+            <h1>{{selectedProject.name}} の未完了課題</h1>
+            <table>
+                <tbody>
+                <tr v-for="i in issues">
+                    <td class="summary-cell">{{i.summary}}</td>
+                    <td class="status-cell">
+                        <div class="status-button-group">
+                            <div :class="{'current-status': i.status == 'untreated'}"
+                                 @click="makeIssueStatusAsUntreated(i.id)">
+                                未対応
+                            </div>
+                            <div :class="{'current-status': i.status == 'processing'}"
+                                 @click="makeIssueStatusAsProcessing(i.id)">
+                                処理中
+                            </div>
+                            <div :class="{'current-status': i.status == 'processed'}"
+                                 @click="makeIssueStatusAsProcessed(i.id)">
+                                処理済み
+                            </div>
+                        </div>
+                    </td>
+                    <td class="close-cell">
+                        <div class="close-button" @click="closeIssue(i.id)">
+                            完了
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 <script>

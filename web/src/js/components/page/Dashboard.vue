@@ -1,10 +1,67 @@
+<style scoped>
+    .dashboard {
+        background-color: white;
+        display: flex;
+        height: 100%;
+    }
+
+    .sidebar {
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        /*background-color: brown;*/
+        background-color: #b3a77b;
+        overflow: scroll;
+        font-weight: bold;
+    }
+
+    .setting-button {
+        background-color: gray;
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    .project-select-button {
+        background-color: antiquewhite;
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .selected-project-button {
+        background-color: #b38324 ;
+    }
+
+</style>
 <template>
-    <div>
-        <div>
-            <router-link to="/">setting</router-link>
-        </div>
-        <div class="projects">
-            <div v-for="p in projects" @click="selectProject(p)">{{p.name}}</div>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="projects">
+                <div class="project-select-button"
+                     :class='{"selected-project-button": selectedProject && selectedProject.id == p.id}'
+                     v-for="p in projects"
+                     @click="selectProject(p)">
+                    {{p.key}}
+                </div>
+            </div>
+
+            <div class="setting">
+                <div class="setting-button" @click="openSettingPanel">
+                    SETTING
+                </div>
+            </div>
         </div>
         <issue-list :selectedProject="selectedProject"></issue-list>
     </div>
@@ -50,6 +107,10 @@
         methods: {
             selectProject(p){
                 this.selectedProject = p;
+            },
+
+            openSettingPanel(){
+                this.$router.push("/")
             }
         }
     }
