@@ -42,14 +42,14 @@
     }
 
     .status-button-group > div:first-child{
-        border-top: solid 1px;
+        border-top: solid 1px #000000;
         border-radius: 10px 10px 0 0;
     }
     .status-button-group > div{
         cursor: pointer;
-        border-bottom: solid 1px;
-        border-left: solid 1px;
-        border-right: solid 1px;
+        border-bottom: solid 1px #000000;
+        border-left: solid 1px #000000;
+        border-right: solid 1px #000000;
         background-color: antiquewhite;
         height: 32px;
         font-weight: bold;
@@ -87,7 +87,7 @@
     }
 
     .list-complete-item {
-        transition: all 1s;
+        transition: all 0.5s;
     }
     .list-complete-leave-to, .list-complete-leave-active {
         opacity: 0;
@@ -100,6 +100,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .synchronizing {
+        color: #666666;
     }
 
     @keyframes spinner-loader {
@@ -140,7 +144,7 @@
                         <tr v-for="i in issues" :key="i.id" class="list-complete-item">
                             <td class="summary-cell">{{i.summary}}</td>
                             <td class="status-cell">
-                                <div class="status-button-group">
+                                <div class="status-button-group" :class="{'synchronizing': i.synchronizing}">
                                     <div :class="{'current-status': i.status == 'untreated'}"
                                          @click="makeIssueStatusAsUntreated(i.id)">
                                         未対応
@@ -156,7 +160,7 @@
                                 </div>
                             </td>
                             <td class="close-cell">
-                                <div class="close-button" @click="closeIssue(i.id)">
+                                <div class="close-button" :class="{'synchronizing': i.synchronizing}" @click="closeIssue(i.id)">
                                     完了
                                 </div>
                             </td>

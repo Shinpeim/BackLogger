@@ -17,6 +17,10 @@ class ChangeStatusService {
 
   def makeStatusAsUntreated(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if ( oldIssue.synchronizing ) {
+      return
+    }
+
     val issue = oldIssue.makeStatusUntreatedAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
@@ -35,6 +39,10 @@ class ChangeStatusService {
 
   def makeStatusAsProcessing(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if ( oldIssue.synchronizing ) {
+      return
+    }
+
     val issue = oldIssue.makeStatusProcessingAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
@@ -53,6 +61,10 @@ class ChangeStatusService {
 
   def makeStatusAsProcessed(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if ( oldIssue.synchronizing ) {
+      return
+    }
+
     val issue = oldIssue.makeStatusProcessedAndSync()
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()
