@@ -14,13 +14,13 @@
 <script>
     import base from './base'
 
-    import {LoadDashboardCommand} from '../../../../../scala/target/scala-2.12/backlogger-opt'
+    import {InitializeDashboardCommand} from '../../../../../scala/target/scala-2.12/backlogger-opt'
 
     export default {
         mixins: [base],
 
         created(){
-            (new LoadDashboardCommand()).execute()
+            (new InitializeDashboardCommand()).execute()
         }
     }
 </script>
