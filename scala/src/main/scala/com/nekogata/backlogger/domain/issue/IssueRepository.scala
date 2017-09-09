@@ -1,11 +1,11 @@
 package com.nekogata.backlogger.domain.issue
 
 trait IssueRepository {
-  def replaceAll(is: Seq[Issue]): Unit
+  def replaceAllOf(projectId: Int, is: Seq[Issue]): Unit
 
-  def getAll(): Seq[Issue]
+  def getAllOf(projectId: Int): Seq[Issue]
 
-  def get(id: Int): Issue
+  def get(projectId:Int, IssueId: Int): Issue
 
-  def store(i: Issue): Unit
+  def store(projectId: Int, issue: Issue): Unit
 }

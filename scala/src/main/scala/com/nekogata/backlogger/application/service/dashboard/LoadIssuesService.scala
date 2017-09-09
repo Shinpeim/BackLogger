@@ -6,6 +6,7 @@ import com.nekogata.backlogger.domain.setting.{SettingRepository, UserIdReposito
 import com.nekogata.backlogger.infrastructure.api_client.BackLogApiClient
 import com.nekogata.backlogger.infrastructure.issue.IssueRepositoryImpl
 import com.nekogata.backlogger.infrastructure.setting.{SettingRepositoryImpl, UserIdRepositoryImpl}
+import com.nekogata.backlogger.js_exports.events.IssueEvents
 
 import scala.scalajs.js
 
@@ -30,10 +31,9 @@ class LoadIssuesService {
 
     client.getIssuesOf(projectId, userId).map(json => {
       val issues = json.map(jsonToIssue)
-      issueRepository.replaceAll(issues)
-    }) recoverWith {
-      case e: Exception => throw e
-    }
+      issueRepository.replaceAllOf(projectId, issues)
+      IssueEvents.loaded.fire()
+    })
   }
 
 
