@@ -23,11 +23,12 @@
         mixins: [base],
 
         created(){
-            this.command = new SaveSettingCommand
-            this.updateData();
+            this.command = new SaveSettingCommand;
         },
 
         beforeMount(){
+            this.updateData();
+
             this.subscriptions.push(
                 SettingEvents.saved.subscribe(() => {
                     this.$router.push("/tasks");
@@ -63,6 +64,7 @@
             },
             updateData(){
                 const q = new SettingQuery();
+                console.log(q.apiKey());
                 this.apiKeyInput = q.apiKey();
                 this.spaceNameInput = q.spaceName();
             }
