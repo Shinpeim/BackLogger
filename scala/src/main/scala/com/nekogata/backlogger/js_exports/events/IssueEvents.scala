@@ -10,4 +10,10 @@ object IssueEvents {
     @JSExport
     override def subscribe(f: js.Function): Subscription = super.subscribe(f)
   }
+
+  @JSExport
+  val repositoryChanged = new Event {
+    @JSExport
+    override def subscribe(f: js.Function): Subscription = super.subscribe(f)
+  }
 }
