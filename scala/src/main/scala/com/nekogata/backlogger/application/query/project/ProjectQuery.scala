@@ -9,7 +9,7 @@ trait ProjectQuery {
 
   import js.JSConverters._
   def all(): js.Array[js.Any] = projectRepository.getAll().map((p) => {
-    js.Dynamic.literal("id" -> p.id, "name" -> p.name): js.Any
+    js.Dynamic.literal("id" -> p.id, "name" -> p.name, "key" -> p.projectKey): js.Any
   }).toJSArray
 
 }
