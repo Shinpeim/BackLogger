@@ -1,4 +1,8 @@
 <style scoped>
+    .clear {
+        clear: both;
+    }
+
     .issue-list {
         width: 100%;
         height: 100%;
@@ -19,9 +23,34 @@
         align-items: center;
     }
 
-    .new-issue {
-        border-bottom: solid 1px gray;
-        padding-bottom: 8px;
+    .new-issue-button {
+        height: 32px;
+        float: right;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 8px;
+        margin-left: 4px;
+    }
+
+    .new-issue-button a {
+        color: #000000;
+        text-decoration: none;
+    }
+
+    .reload-button {
+        height: 32px;
+        float: right;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 8px;
     }
 
     table {
@@ -71,10 +100,11 @@
     }
 
     .close-button {
+        height: 32px;
+        background-color: antiquewhite;
         cursor: pointer;
         border: solid 1px;
         background-color: antiquewhite;
-        height: 32px;
         font-weight: bold;
         display: flex;
         justify-content: center;
@@ -136,6 +166,14 @@
         overflow: hidden;
         text-indent: 100%;
     }
+
+    .issue-control {
+        border-bottom: solid 1px #444444;
+        padding-bottom: 8px;
+    }
+
+
+
 </style>
 <template>
     <div class="issue-list">
@@ -154,10 +192,14 @@
                     </a>
                     の未完了課題
                 </h1>
-                <div class="new-issue">
-                    <a :href="`https://${spaceName}.backlog.jp/add/${selectedProject.key}`" target="_blank">
-                        [+] 新しい課題を登録
-                    </a>
+                <div class="issue-control">
+                    <div class="new-issue-button">
+                        <a :href="`https://${spaceName}.backlog.jp/add/${selectedProject.key}`" target="_blank">
+                            [+] 新しい課題を登録
+                        </a>
+                    </div>
+                    <div class="reload-button" @click="loadAllIssues">課題をリロード</div>
+                    <div class="clear"></div>
                 </div>
                 <table>
                     <transition-group name="list-complete" tag="tbody">
@@ -228,11 +270,8 @@
         },
 
         watch: {
-            selectedProject(v){
-                this.isLoading = true;
-                const command = new LoadIssuesCommand();
-                command.projectId = v.id;
-                command.execute();
+            selectedProject(){
+                this.loadAllIssues();
             }
         },
 
@@ -246,6 +285,13 @@
         },
 
         methods: {
+            loadAllIssues(){
+                this.isLoading = true;
+                const command = new LoadIssuesCommand();
+                command.projectId = this.selectedProject.id;
+                command.execute();
+            },
+
             makeIssueStatusAsUntreated(issueId){
                 const command = new MakeIssueStatusAsUntreatedCommand;
                 command.projectId = this.selectedProject.id;
