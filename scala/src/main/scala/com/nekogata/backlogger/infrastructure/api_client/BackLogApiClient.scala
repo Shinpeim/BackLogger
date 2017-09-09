@@ -32,4 +32,17 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
       responseType = "json"
     ).map(req => Seq(req.response.asInstanceOf[js.Array[js.Dynamic]]: _*))
   }
+
+  def getIssuesOf(projectId: Int, userId: Int): Future[Seq[js.Dynamic]] = {
+    Ajax(
+      method = "GET",
+      url = s"https://${spaceName}.backlog.jp/api/v2/issues?apiKey=${apiKey}" +
+        s"&projectId[]=${projectId}&assigneeId[]=${userId}",
+      data = Ajax.InputData.str2ajax(""),
+      timeout = 5000,
+      headers = Map.empty,
+      withCredentials = false,
+      responseType = "json"
+    ).map(req => Seq(req.response.asInstanceOf[js.Array[js.Dynamic]]: _*))
+  }
 }

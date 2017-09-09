@@ -30,7 +30,7 @@ class InitializeDashboardService {
 
   private def loadUserId():Future[Unit] = {
     client.getMyself.map(json => {
-      userIdRepository.store(json.userId.asInstanceOf[String])
+      userIdRepository.store(json.id.asInstanceOf[Int])
     })
   }
 
