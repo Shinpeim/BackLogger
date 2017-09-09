@@ -4,7 +4,7 @@
             <router-link to="/">setting</router-link>
         </div>
         <div class="projects">
-            <div v-for="p in projects">{{p.name}}</div>
+            <div v-for="p in projects" @click="selectProject(p)">{{p.name}}</div>
         </div>
         <issue-list :selectedProject="selectedProject"></issue-list>
     </div>
@@ -44,6 +44,12 @@
             return {
                 projects: q.all(),
                 selectedProject: null
+            }
+        },
+
+        methods: {
+            selectProject(p){
+                this.selectedProject = p;
             }
         }
     }
