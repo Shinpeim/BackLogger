@@ -20,7 +20,6 @@ class IssueRepositoryImpl extends IssueRepository {
     val issues = IssueRepositoryImpl.status(projectId)
     val index = issues.indexWhere(iInDB => iInDB.id == i.id)
     IssueRepositoryImpl.status = IssueRepositoryImpl.status.updated(projectId, issues.updated(index, i))
-    println(i)
   }
 }
 

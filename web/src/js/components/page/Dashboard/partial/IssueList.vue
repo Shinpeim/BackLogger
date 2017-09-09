@@ -37,7 +37,12 @@
                 IssueEvents.loaded.subscribe(() => {
                     this.issues = query.allOf(this.selectedProject.id)
                 })
-            )
+            );
+            this.subscriptions.push(
+                IssueEvents.repositoryChanged.subscribe(() => {
+                    this.issues = query.allOf(this.selectedProject.id)
+                })
+            );
         },
 
         watch: {
