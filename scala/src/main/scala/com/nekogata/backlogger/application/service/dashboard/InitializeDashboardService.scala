@@ -6,6 +6,7 @@ import com.nekogata.backlogger.domain.setting.{SettingRepository, UserIdReposito
 import com.nekogata.backlogger.infrastructure.api_client.BackLogApiClient
 import com.nekogata.backlogger.infrastructure.project.ProjectRepositoryImpl
 import com.nekogata.backlogger.infrastructure.setting.{SettingRepositoryImpl, UserIdRepositoryImpl}
+import com.nekogata.backlogger.js_exports.events.DashboardEvents
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -23,7 +24,7 @@ class InitializeDashboardService {
       _ <- loadUserId()
       _ <- loadProjects()
     } {
-
+      DashboardEvents.initialized.fire()
     }
   }
 
