@@ -1,5 +1,6 @@
 package com.nekogata.backlogger.infrastructure.api_client
 
+import com.nekogata.backlogger.domain.issue.{Processed, Processing, Untreated}
 import org.scalajs.dom.ext.Ajax
 
 import scala.collection.mutable
@@ -37,7 +38,8 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
     Ajax(
       method = "GET",
       url = s"https://${spaceName}.backlog.jp/api/v2/issues?apiKey=${apiKey}" +
-        s"&projectId[]=${projectId}&assigneeId[]=${userId}",
+        s"&projectId[]=${projectId}&assigneeId[]=${userId}" +
+        s"&statusId[]=${Untreated.id}&statusId[]=${Processing.id}&statusId[]=${Processed.id}",
       data = Ajax.InputData.str2ajax(""),
       timeout = 5000,
       headers = Map.empty,
