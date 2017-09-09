@@ -5,6 +5,12 @@
             <tr v-for="i in issues">
                 <td>{{i.summary}}</td>
                 <td>{{i.status}}</td>
+                <td>
+                    <a @click="makeIssueStatusAsUntreated(i.id)">未対応にする</a>
+                    <a @click="makeIssueStatusAsProcessing(i.id)">処理中にする</a>
+                    <a @click="makeIssueStatusAsProcessed(i.id)">処理済みにする</a>
+                    <a @click="closeIssue(i.id)">完了する</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -13,6 +19,7 @@
 <script>
     import {
         LoadIssuesCommand,
+        MakeIssueStatusAsProcessingCommand,
         IssueEvents,
         IssueQuery
     } from '../../../../../../../scala/target/scala-2.12/backlogger-opt'
@@ -47,7 +54,18 @@
             return {
                 issues: []
             }
-        }
+        },
 
+        methods: {
+            makeIssueStatusAsUntreated(issueId){},
+            makeIssueStatusAsProcessing(issueId){
+                const command = new MakeIssueStatusAsProcessingCommand
+                command.projectId = this.selectedProject.id;
+                command.issueId = issueId;
+                command.execute();
+            },
+            makeIssueStatusAsProcessed(issueId){},
+            closeIssue(issueId){},
+        }
     }
 </script>
