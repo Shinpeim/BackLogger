@@ -71,4 +71,16 @@ class BackLogApiClient(spaceName: String, apiKey: String) {
       responseType = "json"
     ).map(req => ())
   }
+
+  def changeIssueStatusToProcessed(projectId: Int, issueId: Int): Future[Unit] = {
+    Ajax(
+      method = "PATCH",
+      url = s"https://${spaceName}.backlog.jp/api/v2/issues/${issueId}?apiKey=${apiKey}",
+      data = Ajax.InputData.str2ajax(s"""{"statusId":${Processed.id}}"""),
+      timeout = 5000,
+      headers = Map("Content-Type" -> "application/json"),
+      withCredentials = false,
+      responseType = "json"
+    ).map(req => ())
+  }
 }

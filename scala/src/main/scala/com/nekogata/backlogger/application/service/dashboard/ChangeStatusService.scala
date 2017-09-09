@@ -51,5 +51,23 @@ class ChangeStatusService {
     }
   }
 
+  def makeStatusAsProcessed(projectId: Int, issueId: Int): Unit = {
+    val oldIssue = issueRepository.get(projectId, issueId)
+    val issue = oldIssue.makeStatusProcessed()
+    issueRepository.store(projectId, issue)
+    IssueEvents.repositoryChanged.fire()
+
+    val setting = settingRepository.get()
+    val client = new BackLogApiClient(setting.spaceName, setting.apiKey)
+    client.changeIssueStatusToProcessed(projectId, issueId).onComplete {
+      case Success(_) =>
+        issueRepository.store(projectId, issue.commitSynchronizing)
+        IssueEvents.repositoryChanged.fire()
+      case Failure(_) =>
+        issueRepository.store(projectId, oldIssue)
+        IssueEvents.repositoryChanged.fire()
+    }
+  }
+
 
 }

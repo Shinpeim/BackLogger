@@ -19,8 +19,9 @@
 <script>
     import {
         LoadIssuesCommand,
-        MakeIssueStatusAsProcessingCommand,
         MakeIssueStatusAsUntreatedCommand,
+        MakeIssueStatusAsProcessingCommand,
+        MakeIssueStatusAsProcessedCommand,
         IssueEvents,
         IssueQuery
     } from '../../../../../../../scala/target/scala-2.12/backlogger-opt'
@@ -77,7 +78,13 @@
                 command.execute();
             },
 
-            makeIssueStatusAsProcessed(issueId){},
+            makeIssueStatusAsProcessed(issueId){
+                const command = new MakeIssueStatusAsProcessedCommand;
+                command.projectId = this.selectedProject.id;
+                command.issueId = issueId;
+                command.execute();
+            },
+
             closeIssue(issueId){},
         }
     }
