@@ -30,7 +30,7 @@
         beforeMount(){
             this.subscriptions.push(
                 SettingEvents.saved.subscribe(() => {
-                    this.$router.push("/tasks");
+                    this.$router.push("/dashboard");
                 })
             );
 

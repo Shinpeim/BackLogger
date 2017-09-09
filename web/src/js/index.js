@@ -2,13 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Application from './components/Application.vue'
 import Setting from './components/page/Setting.vue'
-import Tasks from './components/page/Tasks.vue'
+import DashBoard from './components/page/Dashboard.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
     { path: '/', component: Setting},
-    { path: '/tasks', component: Tasks}
+    { path: '/dashboard', component: DashBoard}
 ];
 
 const router = new VueRouter({routes});
