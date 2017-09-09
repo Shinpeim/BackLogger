@@ -10,6 +10,15 @@
         margin: 0 auto;
     }
 
+    .loader {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     table {
         width: 100%;
     }
@@ -83,12 +92,46 @@
     .list-complete-leave-to, .list-complete-leave-active {
         opacity: 0;
     }
+
+    .logo {
+        height: 100%;
+        font-size: 100px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @keyframes spinner-loader {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    /*.spinner-loader:not(:required) {*/
+    .spinner-loader:not(:required) {
+        animation: spinner-loader 1500ms infinite linear;
+        border-radius: 0.5em;
+        box-shadow: antiquewhite 1.2em 0 0 0, antiquewhite 1.1em 1.1em 0 0, antiquewhite 0 1.2em 0 0, antiquewhite -1.1em 1.1em 0 0, antiquewhite -1.2em 0 0 0, antiquewhite -1.1em -1.1em 0 0, antiquewhite 0 -1.2em 0 0, antiquewhite 1.1em -1.1em 0 0;
+        display: inline-block;
+        font-size: 10px;
+        width: 1em;
+        height: 1em;
+        margin: 1.5em;
+        overflow: hidden;
+        text-indent: 100%;
+    }
 </style>
 <template>
     <div class="issue-list">
-        <div class="issue-list-container">
-            <div v-if="selectedProject == null">
-
+        <div v-if="isLoading" class="issue-list-container loader">
+            <div class="spinner-loader"></div>
+        </div>
+        <div v-else class="issue-list-container">
+            <div v-if="selectedProject == null" class="logo">
+                BackLogger
             </div>
             <div v-else>
                 <h1>自分が担当している {{selectedProject.name}} の未完了課題</h1>
@@ -147,6 +190,7 @@
             this.subscriptions.push(
                 IssueEvents.loaded.subscribe(() => {
                     this.issues = query.allOf(this.selectedProject.id)
+                    this.isLoading = false;
                 })
             );
             this.subscriptions.push(
@@ -158,8 +202,7 @@
 
         watch: {
             selectedProject(v){
-                const query = new IssueQuery;
-                this.issues = query.allOf(this.selectedProject.id);
+                this.isLoading = true;
                 const command = new LoadIssuesCommand();
                 command.projectId = v.id;
                 command.execute();
@@ -168,7 +211,8 @@
 
         data(){
             return {
-                issues: []
+                issues: [],
+                isLoading: false
             }
         },
 
