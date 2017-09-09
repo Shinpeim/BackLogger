@@ -17,6 +17,10 @@ class CloseIssueService {
 
   def close(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if ( oldIssue.synchronizing ) {
+      return
+    }
+
     val issue = oldIssue.startSynchronizing
     issueRepository.store(projectId, issue)
     IssueEvents.repositoryChanged.fire()

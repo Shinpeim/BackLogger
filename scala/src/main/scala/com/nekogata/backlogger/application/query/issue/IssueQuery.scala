@@ -18,7 +18,8 @@ trait IssueQuery {
           case Untreated => "untreated"
           case Processing => "processing"
           case Processed => "processed"
-        })
+        }),
+        "synchronizing" -> issue.synchronizing
       ): js.Any
     }).toJSArray
   }
