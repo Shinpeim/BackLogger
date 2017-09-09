@@ -77,39 +77,50 @@
         border-bottom: solid 1px gray;
     }
 
+    .list-complete-item {
+        transition: all 1s;
+    }
+    .list-complete-leave-to, .list-complete-leave-active {
+        opacity: 0;
+    }
 </style>
 <template>
     <div class="issue-list">
         <div class="issue-list-container">
-            <h1>{{selectedProject.name}} の未完了課題</h1>
-            <table>
-                <tbody>
-                <tr v-for="i in issues">
-                    <td class="summary-cell">{{i.summary}}</td>
-                    <td class="status-cell">
-                        <div class="status-button-group">
-                            <div :class="{'current-status': i.status == 'untreated'}"
-                                 @click="makeIssueStatusAsUntreated(i.id)">
-                                未対応
-                            </div>
-                            <div :class="{'current-status': i.status == 'processing'}"
-                                 @click="makeIssueStatusAsProcessing(i.id)">
-                                処理中
-                            </div>
-                            <div :class="{'current-status': i.status == 'processed'}"
-                                 @click="makeIssueStatusAsProcessed(i.id)">
-                                処理済み
-                            </div>
-                        </div>
-                    </td>
-                    <td class="close-cell">
-                        <div class="close-button" @click="closeIssue(i.id)">
-                            完了
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div v-if="selectedProject == null">
+
+            </div>
+            <div v-else>
+                <h1>自分が担当している {{selectedProject.name}} の未完了課題</h1>
+                <table>
+                    <transition-group name="list-complete" tag="tbody">
+                        <tr v-for="i in issues" :key="i.id" class="list-complete-item">
+                            <td class="summary-cell">{{i.summary}}</td>
+                            <td class="status-cell">
+                                <div class="status-button-group">
+                                    <div :class="{'current-status': i.status == 'untreated'}"
+                                         @click="makeIssueStatusAsUntreated(i.id)">
+                                        未対応
+                                    </div>
+                                    <div :class="{'current-status': i.status == 'processing'}"
+                                         @click="makeIssueStatusAsProcessing(i.id)">
+                                        処理中
+                                    </div>
+                                    <div :class="{'current-status': i.status == 'processed'}"
+                                         @click="makeIssueStatusAsProcessed(i.id)">
+                                        処理済み
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="close-cell">
+                                <div class="close-button" @click="closeIssue(i.id)">
+                                    完了
+                                </div>
+                            </td>
+                        </tr>
+                    </transition-group>
+                </table>
+            </div>
         </div>
     </div>
 </template>
