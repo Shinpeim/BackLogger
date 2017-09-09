@@ -1,5 +1,7 @@
 package com.nekogata.backlogger.application.command.dashboard
 
+import com.nekogata.backlogger.application.service.dashboard.ChangeStatusService
+
 import scala.scalajs.js
 
 trait MakeIssueStatusAsProcessingCommand {
@@ -10,7 +12,12 @@ trait MakeIssueStatusAsProcessingCommand {
   def issueIdAsOption = issueId.toOption
 
   def execute(): Unit = {
-    println(projectId)
-    println(issueId)
+    for {
+      pid <- projectIdAsOption
+      iid <- issueIdAsOption
+    } {
+      val service = new ChangeStatusService
+      service.makeStatusAsProcessing(pid, iid)
+    }
   }
 }
