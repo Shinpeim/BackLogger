@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, shell} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -15,7 +15,10 @@ function createWindow () {
     slashes: true
   }))
 
-  win.webContents.openDevTools()
+  win.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  })
 
   win.on('closed', () => {
     win = null

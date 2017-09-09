@@ -19,6 +19,11 @@
         align-items: center;
     }
 
+    .new-issue {
+        border-bottom: solid 1px gray;
+        padding-bottom: 8px;
+    }
+
     table {
         width: 100%;
     }
@@ -43,7 +48,7 @@
 
     .status-button-group > div:first-child{
         border-top: solid 1px #000000;
-        border-radius: 10px 10px 0 0;
+        border-radius: 4px 4px 0 0;
     }
     .status-button-group > div{
         cursor: pointer;
@@ -58,7 +63,7 @@
         align-items: center;
     }
     .status-button-group > div:last-child{
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 4px 4px;
     }
 
     .status-button-group > div.current-status {
@@ -74,7 +79,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 10px;
+        border-radius: 4px;
     }
 
     h1 {
@@ -91,6 +96,10 @@
     }
     .list-complete-leave-to, .list-complete-leave-active {
         opacity: 0;
+    }
+
+    a {
+        color: #1482b3;
     }
 
     .logo {
@@ -138,11 +147,24 @@
                 BackLogger
             </div>
             <div v-else>
-                <h1>自分が担当している {{selectedProject.name}} の未完了課題</h1>
+                <h1>
+                    自分が担当している
+                    <a :href="`https://${spaceName}.backlog.jp/projects/${selectedProject.key}`" target="_blank">
+                    {{selectedProject.name}}
+                    </a>
+                    の未完了課題
+                </h1>
+                <div class="new-issue">
+                    <a :href="`https://${spaceName}.backlog.jp/add/${selectedProject.key}`" target="_blank">
+                        [+] 新しい課題を登録
+                    </a>
+                </div>
                 <table>
                     <transition-group name="list-complete" tag="tbody">
                         <tr v-for="i in issues" :key="i.id" class="list-complete-item">
-                            <td class="summary-cell">{{i.summary}}</td>
+                            <td class="summary-cell">
+                                <a :href="`https://${spaceName}.backlog.jp/view/${i.key}`" target="_blank">{{i.summary}}</a>
+                            </td>
                             <td class="status-cell">
                                 <div class="status-button-group" :class="{'synchronizing': i.synchronizing}">
                                     <div :class="{'current-status': i.status == 'untreated'}"
@@ -179,7 +201,8 @@
         MakeIssueStatusAsProcessedCommand,
         CloseIssueCommand,
         IssueEvents,
-        IssueQuery
+        IssueQuery,
+        SettingQuery
     } from '../../../../../../../scala/target/scala-2.12/backlogger-opt'
 
     import base from '../../base'
@@ -214,9 +237,11 @@
         },
 
         data(){
+            const q = new SettingQuery
             return {
                 issues: [],
-                isLoading: false
+                isLoading: false,
+                spaceName: q.spaceName()
             }
         },
 

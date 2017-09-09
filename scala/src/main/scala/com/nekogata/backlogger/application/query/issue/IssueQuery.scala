@@ -13,6 +13,7 @@ trait IssueQuery {
     issueRepository.getAllOf(projectId).map(issue => {
       js.Dynamic.literal(
         "id" -> issue.id,
+        "key" -> issue.key,
         "summary" -> issue.summary,
         "status" -> (issue.status match {
           case Untreated => "untreated"

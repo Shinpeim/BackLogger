@@ -1,6 +1,6 @@
 package com.nekogata.backlogger.domain.issue
 
-case class Issue(id: Int, summary: String, status: IssueStatus, synchronizing: Boolean = false) {
+case class Issue(id: Int, key: String, summary: String, status: IssueStatus, synchronizing: Boolean = false) {
 
   def makeStatusUntreatedAndSync(): Issue = copy(status = Untreated, synchronizing = true)
 

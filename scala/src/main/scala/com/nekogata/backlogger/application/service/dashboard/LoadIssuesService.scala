@@ -44,6 +44,7 @@ class LoadIssuesService {
 
   private def jsonToIssue(json: js.Dynamic): Issue = {
     val id = json.id.asInstanceOf[Int]
+    val key = json.issueKey.asInstanceOf[String]
     val summary = json.summary.asInstanceOf[String]
     val status = json.status.id.asInstanceOf[Int] match {
       case 1 => Untreated
@@ -51,6 +52,6 @@ class LoadIssuesService {
       case 3 => Processed
     }
 
-    Issue(id, summary, status)
+    Issue(id, key, summary, status)
   }
 }
