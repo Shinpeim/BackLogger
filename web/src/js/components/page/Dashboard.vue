@@ -73,7 +73,8 @@
     import {
         ProjectQuery,
         InitializeDashboardCommand,
-        DashboardEvents
+        DashboardEvents,
+        NetworkEvents
     } from '../../../../../scala/target/scala-2.12/backlogger-opt'
 
     export default {
@@ -92,6 +93,11 @@
             this.subscriptions.push(
                 DashboardEvents.initialized.subscribe(() => {
                     this.projects = q.all();
+                })
+            );
+            this.subscriptions.push(
+                NetworkEvents.requestFailed.subscribe(() => {
+                    alert("backlogとの通信に失敗しました。ネットワーク状況や、スペース名、APIキーを確認してください");
                 })
             )
         },
