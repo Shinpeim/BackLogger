@@ -59,7 +59,7 @@
 
             <div class="setting">
                 <div class="setting-button" @click="openSettingPanel">
-                    SETTING
+                    設定
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
             },
 
             openSettingPanel(){
-                this.$router.push("/")
+                this.$router.push("/setting")
             }
         }
     }

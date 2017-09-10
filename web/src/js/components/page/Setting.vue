@@ -1,17 +1,80 @@
-<template>
-    <div>
-        <form @submit.prevent="save">
-            <div>
-                <label for="space-name-input">スペース名</label>
-                <input id="space-name-input" v-model="spaceNameInput">
-            </div>
-            <div>
-                <label for="api-key-input">API KEY</label>
-                <input id="api-key-input" v-model="apiKeyInput">
-            </div>
+<style scoped>
+    .container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #b3a77b;
+    }
 
-            <button type="submit">保存</button>
-        </form>
+    .setting-form {
+        width: 600px;
+        height: 400px;
+        background-color: antiquewhite;
+        border-radius: 4px;
+        font-size:1.3em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input {
+        padding:10px;
+        color:#333333;
+        border:solid 1px #ccc;
+        margin:0 0 20px;
+        width:560px;
+        border-radius: 4px;
+        font-size:1.3em;
+        display: flex;
+    }
+
+    form label {
+        display: block;
+    }
+
+    .submit-button {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+    .submit-button button {
+        background-color: #b38324 ;
+        font-size:1.3em;
+        cursor: pointer;
+        border:solid 1px #ccc;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+
+</style>
+<template>
+    <div class="container">
+        <div class="setting-form">
+            <form @submit.prevent="save">
+                <div>
+                    <label for="space-name-input">スペース名</label>
+                    <input id="space-name-input" v-model="spaceNameInput">
+                </div>
+                <div>
+                    <label for="api-key-input">APIキー</label>
+                    <input id="api-key-input" v-model="apiKeyInput">
+                </div>
+                <p>※APIキーはbacklogの個人設定→APIから発行できます</p>
+
+                <div class="submit-button">
+                    <button type="submit">OK</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 <script>
