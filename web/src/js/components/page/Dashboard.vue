@@ -11,7 +11,7 @@
         flex-direction: column;
         /*background-color: brown;*/
         background-color: #b3a77b;
-        overflow: scroll;
+        overflow: auto;
         font-weight: bold;
     }
 
