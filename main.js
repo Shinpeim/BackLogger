@@ -1,4 +1,4 @@
-const {app, BrowserWindow, shell} = require('electron')
+const {app, BrowserWindow, shell, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -25,16 +25,33 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', function(){
+    const template = [
+        {
+            submenu: [
+                { label: "Quit", accelerator: "CmdOrCtrl+Q", role: "quit" },
+                { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
+                { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
+                { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
+                { label: "SelectAll", accelerator: "CmdOrCtrl+A", role: "selectall" }
+            ]
+        }
+    ];
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+    createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
-})
+});
+
+
