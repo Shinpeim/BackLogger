@@ -33,7 +33,7 @@
         width: 1em;
         height: 1em;
         margin: 1.5em;
-        overflow: hidden;
+        overflow: auto;
         text-indent: 100%;
     }
 
