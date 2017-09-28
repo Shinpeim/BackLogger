@@ -1,2 +1,2 @@
 #!/bin/sh
-exec foreman start
+NODE_ENV=development exec foreman start
