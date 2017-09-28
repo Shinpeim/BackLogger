@@ -23,6 +23,10 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+
+  if (process.env.NODE_ENV='development') {
+    win.toggleDevTools()
+  }
 }
 
 app.on('ready', function(){
@@ -33,6 +37,7 @@ app.on('ready', function(){
                 { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
                 { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
                 { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
+                { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
                 { label: "SelectAll", accelerator: "CmdOrCtrl+A", role: "selectall" }
             ]
         }

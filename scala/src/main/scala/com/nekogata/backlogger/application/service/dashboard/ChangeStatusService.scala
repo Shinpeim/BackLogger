@@ -1,6 +1,6 @@
 package com.nekogata.backlogger.application.service.dashboard
 
-import com.nekogata.backlogger.domain.issue.IssueRepository
+import com.nekogata.backlogger.domain.issue.{IssueRepository, Processed, Processing, Untreated}
 import com.nekogata.backlogger.domain.setting.SettingRepository
 import com.nekogata.backlogger.infrastructure.api_client.BackLogApiClient
 import com.nekogata.backlogger.infrastructure.issue.IssueRepositoryImpl
@@ -17,6 +17,9 @@ class ChangeStatusService {
 
   def makeStatusAsUntreated(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if (oldIssue.status == Untreated) {
+      return
+    }
     if ( oldIssue.synchronizing ) {
       return
     }
@@ -39,6 +42,9 @@ class ChangeStatusService {
 
   def makeStatusAsProcessing(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if (oldIssue.status == Processing) {
+      return
+    }
     if ( oldIssue.synchronizing ) {
       return
     }
@@ -61,6 +67,9 @@ class ChangeStatusService {
 
   def makeStatusAsProcessed(projectId: Int, issueId: Int): Unit = {
     val oldIssue = issueRepository.get(projectId, issueId)
+    if (oldIssue.status == Processed) {
+      return
+    }
     if ( oldIssue.synchronizing ) {
       return
     }
